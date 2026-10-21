@@ -1,0 +1,8 @@
+# The EFI boot partition only needs to be large enough to hold the IFS
+# Set the EFI boot partition (t12) to 200MB in this example
+[num_sectors=409600]
+
+# Create the boot image with the name required by your board's firmware
+# NOTE: you can change which boot image is used for the default boot here
+EFI/BOOT/BOOTX64.EFI=./generic-uefi/x86_64-generic-uefi.efi
+

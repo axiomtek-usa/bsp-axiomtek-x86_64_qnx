@@ -1,0 +1,24 @@
+%C − Embedded API.
+
+%C [options]
+
+DESCRIPTION
+%C is a resource manager that provides a unified interface
+for Embedded Controller (EC) chips. It initialises the target EC
+chip and exposes a resource manager interface for client access.
+
+options:
+    -d chip_name
+        Specify the EC chip to initialise. Name is case-insensitive.
+        Accepted values: mec, mec170x, f81804, fintek
+
+    -p priority
+        Change kernel assigned priority
+
+    -v verbosity
+        Set the verbosity level.
+
+example:
+Launch the server targeting a MEC-compatible EC:
+
+%C -d mec

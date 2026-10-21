@@ -1,0 +1,26 @@
+<!-- Unless otherwise specified, values/attributes are free-form strings -->
+    <!-- type is currently either BSP or SourceOnly -->
+<sourcePackage type="BSP" id="hw.x86_64">
+    <title>Generic x86_64 (64-bit)</title>
+    <release>0.4.0</release>
+    <license>QDL and Apache II</license>
+    <startup>startup-x86</startup>
+    <requires>package: com.qnx.${baselineId}.target.microkernel.core (>= 2.5.0)</requires>
+    <requires>package: com.qnx.${baselineId}.target.pci.server (>= 3.2.1)</requires>
+    <requires>package: com.qnx.${baselineId}.target.net.openSSH (>= 0.5.0)</requires>
+    <requires>package: com.qnx.${baselineId}.target.bsp.i2c (>= 1.0.0)</requires>
+    <description>This board support package (BSP) is for generic x86_64 (64-bit) boards. This BSP contains prebuilt binaries and buildfiles to boot your board with the QNX RTOS. In addition, this BSP provides source code for various drivers that you can build. For usage information, see the documentation links in the package's properties.</description>
+    <vendor>BlackBerry Limited</vendor>
+    <qnxTargetVersion>SDP8.0</qnxTargetVersion>
+    <qnxTargetCPU variant="x86_64">x86_64</qnxTargetCPU>
+    <property key="f.swtype" value="I"/>
+    <!-- type is currently only import, will be extended in the future. -->
+    <bsp type="import">
+        <import id="x86_64">images/generic-bios/x86_64-generic-bios.build</import>
+        <import id="x86_64">images/generic-uefi/x86_64-generic-uefi.build</import>
+        <import id="x86_64">images/elkhart-lake/x86_64-ehl-crb-uefi.build</import>
+        <import id="x86_64">images/amston-lake/x86_64-seco-amstonlake-uefi.build</import>
+        <import id="x86_64">images/meteor-lake/x86_64-axiomtek-meteorlake-uefi.build</import>
+        <import id="x86_64">images/panther-lake/x86_64-pantherlake-evk-uefi.build</import>
+    </bsp>
+</sourcePackage>

@@ -1,0 +1,41 @@
+Use message for eapi-wdtkick.
+%C Watchdog Timer Client for EAPI Server
+
+Syntax:
+    wdtkick [options] 
+
+Runs on:
+QNX OS
+
+Options:
+ -d initial_delay     Initial delay before watchdog monitoring begins in milliseconds.
+                      Default: 100 ms.
+ -e event_timeout     Time in milliseconds until watchdog event is triggered.
+                      Default: 60000 ms.
+ -g trigger_type      Watchdog trigger type: Software trigger = 0x10 (default),
+                      Hardware trigger = 0x20.
+ -m mode              Watchdog reset mode. 
+ -p priority          Thread priority. Default is to inherit.
+ -r reset_timeout     Additional time in milliseconds before system reset occurs
+                      after event. Default: 29000 ms.
+ -s sleep             Period between each watchdog kick in milliseconds. Default: 40000 ms.
+                      Must be less than timeout.
+ -t timeout           Watchdog timeout in milliseconds (how long the watchdog is
+                      armed for). Default: 80000 ms. Max: (255 * 60000) ms.
+
+Note:
+1. The kick interval must be less then the watchdog timeout.
+2. It is recommended to run the Watchdog timer early during system boot. For this reason,
+   run the Watchdog timer early in your buildfile.
+3. Use the -t option to set the watchdog timeout. If the hardware instead supports
+   an initial delay, followed by an event timeout and reset timeout, use the
+   corresponding options (-d, -e, -r).
+
+
+Example:
+1. Run with timeout 80s and kick period of 40s:
+    eapi-wdtkick -t 80000 -s 40000
+2. Run with event timeout 60s and kick period of 40s:
+    eapi-wdtkick -s 40000 -e 60000
+3. Run with system reset mode and software trigger:
+    eapi-wdtkick -e 60000 -s 40000 -m 2 -g 0x10

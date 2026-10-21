@@ -1,0 +1,89 @@
+%C - SMBus Resource Manager
+
+
+Usage:
+
+%C [-D pci_did] [-I pci_instance] [-i irq] [-o device_options]
+    [-P base_address^size[^type]] [-p] [-U uid[:gid[,sup_gid]*]]
+    [-u unit] [-V pci_vid] [-v[v[v...]]]
+
+
+Options:
+
+-D pci_did
+    Specify the PCI device ID.
+    If not specified, the driver searches all the device IDs.
+
+-I pci_instance
+    Specify the PCI instance.
+    In the event that more than one SMBus controller was found, the PCI instance
+    allows to select the correct PCI device among the ones found. The instance
+    starts at 0 for the first device, 1 for the second device, and so on.
+    (default: 0)
+
+-i irq
+    Specify the IRQ.
+    If the SMBus controller is a PCI device, this option forces the driver to
+    use the specified IRQ instead of the IRQ discovered in the PCI device.
+
+-o device_options
+    Specify the device-specific comma separated options.
+
+-P base_address^size[^type]
+    Specify the base address register.
+    If the SMBus controller is a PCI device, this option forces the driver to
+    use the specified base address instead of the BAR discovered in the PCI
+    device. This option requires the base address register and the register bank
+    size. The address type can be 1 for a MMIO base address, or 2 for a I/O base
+    address. If the address type is not specified, the default type is MMIO.
+
+-p
+    Enable polling mode.
+    If a IRQ was specified or discovered in the PCI device, the driver uses
+    an interrupt-based transaction handler. If no IRQ was discovered or
+    specified, the driver uses a polling-based transaction handler. Setting this
+    option forces the driver to use the polling-based transaction handler
+    regardless of the configuration of the IRQ.
+    (default: disable)
+
+-U uid[:gid[,sup_gid]*]
+-U user_name[,sup_gid]*
+    Run as the given user (or uid) with the given group ids.
+    Note that if the user is specified by name, the given groups are added to
+    that user's group list. If the user is specified by uid and no groups are
+    listed, the process inherits the parent process' group list.
+    (default: run as the user starting the driver)
+
+-u unit
+    Specify the device unit appended to the device name prefix (/dev/smb).
+    (default: 0)
+
+-V pci_vid
+    Specify the PCI vendor ID.
+    If not specified, the driver searches all the vendor IDs.
+
+-v[v[v...]], --verbose=level
+    Set the verbosity level of slogger2 messages.
+    Adding extra 'v' cumulatively increases the verbosity level of slogger2
+    up to SLOG2_DEBUG2 (i.e.: 7). Specifying a negative level redirects the
+    messages to 'stderr' instead of slogger2. This is also the case if slogger2
+    is not found during the driver initialization.
+    (default: SLOG2_ERROR)
+
+
+Examples:
+
+- Start the driver on the first SMBus controller in polling mode at /dev/smb1
+%C -u 1 -p
+
+- Start the driver on the third Intel SMBus controller in interrupt mode at
+  /dev/smb3
+%C -u 3 -I 2 -V 0x8086
+
+- Start the driver on the SMBus controller at the I/O address 0x1F00
+  in interrupt mode
+%C -P 0x1F00^0x100^2 -i 0x18
+
+- Start the driver on the SMBus controller 0x8086:0x1258 in polling mode with
+  maximum verbosity
+%C -V 0x8086 -D 0x1258 -p -vvvvvvv

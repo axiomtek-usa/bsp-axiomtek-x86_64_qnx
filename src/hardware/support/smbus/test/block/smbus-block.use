@@ -1,0 +1,62 @@
+%C - SMBus Block Utility.
+Execute DCMD_SMBUS_CMD devctl with the following commands:
+    - SMBUS_CMD_BLOCK (n-byte payload)
+    - SMBUS_CMD_I2C_READ (n-byte payload)
+
+
+Usage:
+
+%C -a address [-l length] [-n bus_path] [-v[v...]]
+        [--i2c-en] [--i2c-read] [--pec] [--raw] [data]...
+
+
+Options:
+
+-a address, --addr=address
+    Set the 7-bit slave address
+
+-l length, --len=length
+    Set the number of bytes to receive
+    (default: 0)
+
+-n bus_path, --path=bus_path
+    Specify the location of the SMBus resource manger to attach to
+    (default: /dev/smb0)
+
+-v[v[v...]], --verbose=<level>
+    Set the verbosity level of displayed details
+    (default: 0)
+
+--i2c-en
+    Enable the I2C mode of the SMBus controller
+    (default: disabled)
+
+--i2c-read
+    Force a read transaction with the SMBus command SMBUS_CMD_I2C_READ
+    (default: SMBUS_CMD_BLOCK)
+
+--pec
+    Enable the Packet Error Code (PEC) feature
+    (default: disabled)
+
+--raw
+    Display the received bytes as unformatted output
+    (default: disabled)
+
+data
+    Specify the bytes to send
+
+
+Examples:
+
+- Read 5 bytes of SMBus device 0x40 (SMBUS_CMD_BLOCK)
+%C -a 0x40 -l 5 0x00
+
+- Write the byte sequence 0xDDCCBBAA in SMBus device 0x40 (SMBUS_CMD_BLOCK)
+%C -a 0x40 0x4 0xAA 0xBB 0xCC 0xDD
+
+- Write the byte sequence 0xDDCCBBAA in I2C device 0x44 (SMBUS_CMD_BLOCK)
+%C -a 0x44 --i2c-en 0x4 0xAA 0xBB 0xCC 0xDD
+
+- Read 256 byte starting at offset 0x00 of I2C device 0x50 (SMBUS_CMD_I2C_READ)
+%C -a 0x50 --i2c-read -l 256 0x00

@@ -1,0 +1,60 @@
+%C - SMBus Byte/Word Utility.
+Execute DCMD_SMBUS_CMD devctl with the following commands:
+    - SMBUS_CMD_BYTE (1-byte payload)
+    - SMBUS_CMD_BYTE_DATA (2-byte payload)
+    - SMBUS_CMD_WORD_DATA (3-byte payload)
+
+
+Usage:
+
+%C -a address [-l length] [-n bus_path] [-v[v...]] [--pec] [--raw] [data]...
+
+
+Options:
+
+-a address, --addr=address
+    Set the 7-bit slave address
+
+-l length, --len=length
+    Set the number of bytes to receive
+    (default: 0)
+
+-n bus_path, --path=bus_path
+    Specify the location of the SMBus resource manger to attach to
+    (default: /dev/smb0)
+
+-v[v[v...]], --verbose=<level>
+    Set the verbosity level of displayed details
+    (default: 0)
+
+--pec
+    Enable the Packet Error Code (PEC) feature
+    (default: disabled)
+
+--raw
+    Display the received bytes as unformatted output
+    (default: disabled)
+
+data
+    Specify the bytes to send
+
+
+Examples:
+
+- Read one byte of device 0x73 (SMBUS_CMD_BYTE)
+%C -a 0x73 -l 1
+
+- Write the byte 0xAA in device 0x73 (SMBUS_CMD_BYTE)
+%C -a 0x73 0xAA
+
+- Read one byte at offset 0x02 of device 0x50 (SMBUS_CMD_BYTE_DATA)
+%C -a 0x50 -l 1 0x02
+
+- Write the byte 0xAA at offset 0x02 in device 0x44 (SMBUS_CMD_BYTE_DATA)
+%C -a 0x44 0x02 0xAA
+
+- Read two bytes at offset 0x02 of device 0x50 (SMBUS_CMD_WORD_DATA)
+%C -a 0x50 -l 2 0x02
+
+- Write the word 0xBBAA at offset 0x02 in device 0x44 (SMBUS_CMD_WORD_DATA)
+%C -a 0x44 0x02 0xAA 0xBB
